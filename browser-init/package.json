@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "jsforce": "^1.7.0",
+    "jsforce-ajax-proxy": "^1.0.0"
+  }
 }
