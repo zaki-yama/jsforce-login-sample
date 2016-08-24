@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jsforce/1.7.0/jsforce.min.js"></script>
+<title></title>
+</head>
+<body>
+  <button id="login" onClick="login()">Login</button>
+  <button id="query" onClick="query()">Query</button>
+  <div id="result"></div>
+  <script>
+    jsforce.browser.init({
+      clientId: 'YOUR_CLIENT_ID', // replace here
+      redirectUri: 'http://localhost:5000/',
+      proxyUrl: 'http://localhost:5000/proxy/'
+    });
+
+    if (jsforce.browser.isLoggedIn()) {
+      console.log('Logged in', jsforce.browser.connection.userInfo);
+      var loginButton = document.getElementById('login');
+      loginButton.style.display = 'none';
+    } else {
+      console.log('Not logged in');
+      var queryButton = document.getElementById('query');
+      queryButton.style.display = 'none';
+    }
+
+    // Login ボタンを押した時
+    function login() {
+      jsforce.browser.login();
+      jsforce.browser.on('connect', function(conn) {
+        location.href = '/';
+      });
+    }
+
+    // Query ボタンを押した時
+    function query() {
+      console.log('isLoggedIn: ', jsforce.browser.isLoggedIn());
+      jsforce.browser.connection.query('SELECT Id, Name FROM Account', function(err, res) {
+        if (err) {
+          console.err(err);
+        } else {
+          var result = document.getElementById('result');
+          var names = [];
+          for (var i = 0; i < res.records.length; i++) {
+            names.push(res.records[i].Name);
+          }
+
+          result.innerHTML = names.toString();
+          console.log(res);
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
