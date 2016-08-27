@@ -13,8 +13,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "jsforce": "^1.7.0",
-    "jsforce-ajax-proxy": "^1.0.0",
-    "webpack": "^1.13.2"
+    "jsforce-ajax-proxy": "^1.0.0"
   },
   "devDependencies": {}
 }
