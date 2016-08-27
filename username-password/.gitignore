@@ -1,5 +1,6 @@
 ### https://raw.github.com/github/gitignore/c844436111744d996ed453843d85125bab22af32/node.gitignore
 .DS_Store
+.env
 
 # Logs
 logs

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jsforce/1.7.0/jsforce.min.js"></script>
+<script src="https://npmcdn.com/axios/dist/axios.min.js"></script>
+<title></title>
+</head>
+<body>
+  <button id="query" onClick="query()">Query</button>
+  <div id="result"></div>
+  <script>
+    function query() {
+      axios.get('/accounts')
+        .then(function(res) {
+          console.log(res);
+          var resultNode = document.getElementById('result');
+          var names = [];
+          for (var i = 0; i < res.data.length; i++) {
+            names.push(res.data[i].Name);
+          }
+          result.innerHTML = names.toString();
+        })
+        .catch(function(err) {
+        });
+    }
+  </script>
+
+</body>
+</html>
