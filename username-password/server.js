@@ -4,7 +4,6 @@ var jsforceAjaxProxy = require('jsforce-ajax-proxy');
 var app = express();
 
 app.all('/proxy/?*', jsforceAjaxProxy());
-app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
   var conn = new jsforce.Connection();
@@ -15,7 +14,7 @@ app.get('/', function(req, res) {
     console.log(conn.instanceUrl);
     console.log('User ID: ' + userInfo.id);
     console.log('Org ID: ' + userInfo.organizationId);
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile(__dirname + '/public/index.html')
   });
 });
 
