@@ -1,7 +1,7 @@
 jsforce-browser-login
 =====================
 
-クライアント側で `jsforce.browser.login()` を使ってログインするサンプル。
+クライアント側で `jsforce.browser.init()` を使ってログインするサンプル。
 
 ### 使い方
 

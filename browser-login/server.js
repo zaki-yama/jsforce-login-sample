@@ -4,9 +4,11 @@ var app = express();
 
 app.all('/proxy/?*', jsforceAjaxProxy());
 
-app.use(express.static(__dirname + '/public'));
-
 var port = process.env.PORT || 5000;
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/public/index.html')
+})
 
 app.listen(port, function(error) {
   if (error) {
