@@ -3,6 +3,9 @@ var jsforce = require('jsforce');
 var jsforceAjaxProxy = require('jsforce-ajax-proxy');
 var app = express();
 
+var redis = require('redis');
+var client = redis.createClient(process.env.REDIS_URL);
+
 app.all('/proxy/?*', jsforceAjaxProxy());
 
 
@@ -33,12 +36,28 @@ app.get('/oauth2/callback', function(req, res) {
     console.log(conn.instanceUrl);
     console.log('User ID: ' + userInfo.id);
     console.log('Org ID: ' + userInfo.organizationId);
+    client.hmset('AuthorizationInfo', {
+      accessToken: conn.accessToken,
+      instanceUrl: conn.instanceUrl,
+      userId: userInfo.id,
+      orgId: userInfo.organizationId
+    }, () => {
+      res.redirect('/');
+    });
   });
 });
 
 app.get('/', function(req, res) {
   // FIXME: DB に保存された auth 情報があれば index.html を返す
-  res.redirect('/oauth2/auth');
+
+  client.hgetall('AuthorizationInfo', (err, authInfo) => {
+    // TODO: エラーハンドリング
+    console.log('authInfo=>', authInfo);
+    if (!authInfo) {
+      res.redirect('/oauth2/auth');
+    }
+    res.sendFile(__dirname + '/public/index.html')
+  });
 });
 
 var port = process.env.PORT || 5000;
